@@ -4,10 +4,11 @@ import {
   DeletedAt,
   Model,
   PrimaryKey, Table,
+  Unique,
   UpdatedAt
 } from 'sequelize-typescript'
 
-@Table({ tableName: 'restaurants' })
+@Table({ tableName: 'restaurant' })
 export class Restaurant extends Model<Restaurant> {
   @PrimaryKey
   @Column({ autoIncrement: true })
@@ -16,6 +17,7 @@ export class Restaurant extends Model<Restaurant> {
   @Column
   name: string
 
+  @Unique
   @Column
   address: string
 
