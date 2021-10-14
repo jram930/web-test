@@ -2,36 +2,42 @@ import {
 	Column,
 	CreatedAt,
 	DeletedAt,
-	ForeignKey,
 	Model,
 	PrimaryKey, Table,
+	ForeignKey,
 	UpdatedAt
 } from 'sequelize-typescript'
 
 import { Restaurant } from '.'
 
-@Table({ tableName: 'inventory' })
-export class Inventory extends Model<Inventory> {
+@Table({ tableName: 'reservation' })
+export class Reservation extends Model<Reservation> {
 	@PrimaryKey
 	@Column({ autoIncrement: true })
 	id: number
 
 	@ForeignKey(() => Restaurant)
-	@Column({
-		unique: 'inventory_unique',
-	})
+	@Column
 	restaurant_id: number
 
 	@Column
-	quantity: number
+	name: string
 
 	@Column({
-		unique: 'inventory_unique',
+		unique: 'reservation_unique',
 	})
-	party_size: number
+	email: string
+
+	@Column
+	party_size: string
 
 	@Column({
-		unique: 'inventory_unique',
+		unique: 'reservation_unique',
+	})
+	date: Date
+
+	@Column({
+		unique: 'reservation_unique',
 	})
 	time: number
 

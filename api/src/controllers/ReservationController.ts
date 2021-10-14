@@ -1,22 +1,22 @@
 import { Controller, Get, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
-import { InventoryLogic } from '../lib/InventoryLogic';
+import { ReservationLogic } from '../lib/ReservationLogic'
 import logger from '../logger';
 
-@Controller('inventory')
-export class InventoryController {
+@Controller('reservations')
+export class ReservationController {
 
-	logic: InventoryLogic
+	logic: ReservationLogic
 
 	constructor() {
-		this.logic = new InventoryLogic()
+		this.logic = new ReservationLogic()
 	}
 
 	@Get('')
 	private async get(req: Request, res: Response) {
 		try {
-			const inventories = await this.logic.getAllInventories()
-			return res.status(200).send(inventories)
+			const reservations = await this.logic.getAllReservations()
+			return res.status(200).send(reservations)
 		} catch(err) {
 			logger.error(err)
 			return res.sendStatus(500)
@@ -28,7 +28,7 @@ export class InventoryController {
 		try {
 			if(!this.logic.postCheckValidRequest(req)) return res.sendStatus(400)
 
-			await this.logic.createInventory(req.body)
+			await this.logic.createReservationIfInventoryAllows(req.body)
 
 			return res.sendStatus(200)
 		} catch(error) {

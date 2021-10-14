@@ -31,9 +31,9 @@ export class RestaurantController {
 			await this.logic.createRestaurant(req.body)
 
 			return res.sendStatus(200)
-		} catch(err) {
-			logger.error(err)
-			return res.sendStatus(500)
+		} catch(error) {
+			logger.error(error)
+			return res.status(400).send({error})
 		}
 	}
 }
