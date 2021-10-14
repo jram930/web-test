@@ -13,20 +13,35 @@ export class InventoryController {
 	}
 
 	@Get('')
-	private async get(req: Request, res: Response) {
+	private async getAllInventories(req: Request, res: Response) {
 		try {
 			const inventories = await this.logic.getAllInventories()
 			return res.status(200).send(inventories)
 		} catch(err) {
 			logger.error(err)
-			return res.sendStatus(500)
+			return res.sendStatus(400)
+		}
+	}
+
+	@Get(':id')
+	private async getInventoryById(req: Request, res:Response) {
+		try {
+			if(this.logic.getInventoryByIdCheckValidRequest(req)) {
+				const restaurant = await this.logic.getInventoryById(req.params.id)
+				return res.status(200).send(restaurant)
+			} else {
+				return res.sendStatus(400)
+			}
+		} catch(err) {
+			logger.error(err)
+			return res.sendStatus(400)
 		}
 	}
 
 	@Post('')
-	private async post(req: Request, res: Response) {
+	private async createInventory(req: Request, res: Response) {
 		try {
-			if(!this.logic.postCheckValidRequest(req)) return res.sendStatus(400)
+			if(!this.logic.createInventoryCheckValidRequest(req)) return res.sendStatus(400)
 
 			await this.logic.createInventory(req.body)
 

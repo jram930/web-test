@@ -13,8 +13,17 @@ export class RestaurantLogic {
 		return true
 	}
 
+	public getRestaurantByIdCheckValidRequest(req: Request) {
+		if(!req || !req.params || !req.params.id) return false
+		return true
+	}
+
 	public async getAllRestaurants() {
-		return await Restaurant.findAll();
+		return await Restaurant.findAll()
+	}
+
+	public async getRestaurantById(id) {
+		return await Restaurant.findOne({where: {id}})
 	}
 
 	public async createRestaurant(opts: RestaurantOptions) {

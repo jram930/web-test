@@ -40,6 +40,15 @@ export class ReservationLogic {
 		return await Reservation.findAll()
 	}
 
+	public async getReservationByIdCheckValidRequest(req) {
+		if(!req || !req.params || !req.params.id) return false
+		return true
+	}
+
+	public async getReservationById(id) {
+		return await Reservation.findOne({where: {id}})
+	}
+
 	public async createReservationIfInventoryAllows(opts: ReservationOptions) {
 
 		const restaurantId = await this.restaurantLookup.getRestuarantId(opts.restaurantName)

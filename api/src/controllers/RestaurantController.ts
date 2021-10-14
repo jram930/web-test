@@ -13,24 +13,39 @@ export class RestaurantController {
 	}
 
 	@Get('')
-	private async get(req: Request, res: Response) {
+	private async getAllRestaurants(req: Request, res: Response) {
 		try {
 			const restaurants = await this.logic.getAllRestaurants()
 			return res.status(200).send(restaurants)
 		} catch(err) {
 			logger.error(err)
-			return res.sendStatus(500)
+			return res.sendStatus(400)
+		}
+	}
+
+	@Get(':id')
+	private async getRestaurantById(req: Request, res:Response) {
+		try {
+			if(this.logic.getRestaurantByIdCheckValidRequest(req)) {
+				const restaurant = await this.logic.getRestaurantById(req.params.id)
+				return res.status(200).send(restaurant)
+			} else {
+				return res.sendStatus(400)
+			}
+		} catch(err) {
+			logger.error(err)
+			return res.sendStatus(400)
 		}
 	}
 
 	@Post('')
-	private async post(req: Request, res: Response) {
+	private async createRestaurant(req: Request, res: Response) {
 		try {
 			if(!this.logic.postCheckValidRequest(req)) return res.sendStatus(400)
 
 			await this.logic.createRestaurant(req.body)
 
-			return res.sendStatus(200)
+			return res.sendStatus(201)
 		} catch(error) {
 			logger.error(error)
 			return res.status(400).send({error})

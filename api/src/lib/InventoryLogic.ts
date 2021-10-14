@@ -13,7 +13,7 @@ export class InventoryLogic {
 		this.restaurantLookup = new RestaurantLookup()
 	}
 
-	public postCheckValidRequest(req: Request) {
+	public createInventoryCheckValidRequest(req: Request) {
 		if (!req || !req.body) return false
 		const {
 			restaurantName,
@@ -45,6 +45,15 @@ export class InventoryLogic {
 
 	public async getAllInventories() {
 		return await Inventory.findAll()
+	}
+
+	public async getInventoryByIdCheckValidRequest(req) {
+		if(!req || !req.params || !req.params.id) return false
+		return true
+	}
+
+	public async getInventoryById(id) {
+		return await Inventory.findOne({where: {id}})
 	}
 
 	public async createInventory(opts: InventoryOptions) {

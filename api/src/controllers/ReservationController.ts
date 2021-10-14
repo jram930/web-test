@@ -13,18 +13,33 @@ export class ReservationController {
 	}
 
 	@Get('')
-	private async get(req: Request, res: Response) {
+	private async getAllReservations(req: Request, res: Response) {
 		try {
 			const reservations = await this.logic.getAllReservations()
 			return res.status(200).send(reservations)
 		} catch(err) {
 			logger.error(err)
-			return res.sendStatus(500)
+			return res.sendStatus(400)
+		}
+	}
+
+	@Get(':id')
+	private async getReservationById(req: Request, res:Response) {
+		try {
+			if(this.logic.getReservationByIdCheckValidRequest(req)) {
+				const restaurant = await this.logic.getReservationById(req.params.id)
+				return res.status(200).send(restaurant)
+			} else {
+				return res.sendStatus(400)
+			}
+		} catch(err) {
+			logger.error(err)
+			return res.sendStatus(400)
 		}
 	}
 
 	@Post('')
-	private async post(req: Request, res: Response) {
+	private async createReservation(req: Request, res: Response) {
 		try {
 			if(!this.logic.postCheckValidRequest(req)) return res.sendStatus(400)
 
