@@ -33,6 +33,10 @@ export class RestaurantLogic {
 		});
 		return;
 	}
+
+	public async deleteAllRestaurants() {
+		await Restaurant.sequelize?.query('TRUNCATE TABLE restaurant;')
+	}
 }
 
 class RestaurantOptions {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@overnightjs/core'
+import { Controller, Get, Post, Delete } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { RestaurantLogic } from '../lib/RestaurantLogic';
 import logger from '../logger';
@@ -49,6 +49,17 @@ export class RestaurantController {
 		} catch(error) {
 			logger.error(error)
 			return res.status(400).send({error})
+		}
+	}
+
+	@Delete('')
+	private async deleteAllRestaurants(req: Request, res: Response) {
+		try {
+			await this.logic.deleteAllRestaurants()
+			return res.sendStatus(200);
+		} catch(err) {
+			logger.error(err)
+			return res.sendStatus(400)
 		}
 	}
 }

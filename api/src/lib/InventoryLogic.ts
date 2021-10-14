@@ -94,6 +94,10 @@ export class InventoryLogic {
 		}
 		return await Inventory.bulkCreate(toInsert)
 	}
+
+	public async deleteAllInventory() {
+		await Inventory.sequelize?.query('TRUNCATE TABLE inventory;')
+	}
 }
 
 class InventoryOptions {

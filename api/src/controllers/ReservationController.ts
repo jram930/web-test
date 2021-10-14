@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@overnightjs/core'
+import { Controller, Delete, Get, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { ReservationLogic } from '../lib/ReservationLogic'
 import logger from '../logger';
@@ -45,10 +45,21 @@ export class ReservationController {
 
 			await this.logic.createReservationIfInventoryAllows(req.body)
 
-			return res.sendStatus(200)
+			return res.sendStatus(201)
 		} catch(error) {
 			logger.error(error)
 			return res.status(400).send({error})
+		}
+	}
+
+	@Delete('')
+	private async deleteAllReservations(req: Request, res: Response) {
+		try {
+			await this.logic.deleteAllReservations()
+			return res.sendStatus(200);
+		} catch(err) {
+			logger.error(err)
+			return res.sendStatus(400)
 		}
 	}
 }

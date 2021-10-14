@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@overnightjs/core'
+import { Controller, Get, Post, Delete } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { InventoryLogic } from '../lib/InventoryLogic';
 import logger from '../logger';
@@ -45,10 +45,21 @@ export class InventoryController {
 
 			await this.logic.createInventory(req.body)
 
-			return res.sendStatus(200)
+			return res.sendStatus(201)
 		} catch(error) {
 			logger.error(error)
 			return res.status(400).send({error})
+		}
+	}
+
+	@Delete('')
+	private async deleteAllInventory(req: Request, res: Response) {
+		try {
+			await this.logic.deleteAllInventory()
+			return res.sendStatus(200)
+		} catch(err) {
+			logger.error(err)
+			return res.sendStatus(400)
 		}
 	}
 }

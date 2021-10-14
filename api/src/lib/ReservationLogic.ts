@@ -49,6 +49,10 @@ export class ReservationLogic {
 		return await Reservation.findOne({where: {id}})
 	}
 
+	public async deleteAllReservations() {
+		await Reservation.sequelize?.query('TRUNCATE TABLE reservation;')
+	}
+
 	public async createReservationIfInventoryAllows(opts: ReservationOptions) {
 
 		const restaurantId = await this.restaurantLookup.getRestuarantId(opts.restaurantName)
